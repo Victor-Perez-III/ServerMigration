@@ -1,6 +1,6 @@
-const express = require("express")
-const app = express()
-const PORT = 3000
+const express = require("express");
+const app = express();
+const PORT = 3000;
 
 const tasks = [
     { id: "1", title: 'Hacer la compra', isComplete: 'false' },
@@ -9,11 +9,13 @@ const tasks = [
 ]
 
 app.get("/tasks", (req, res) => {
-    res.json(tasks)
+    res.json(tasks);
 })
 
 app.listen(PORT, () => {
     console.log("Server Running.....");
 })
+
+
 
 
