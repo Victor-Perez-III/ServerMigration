@@ -8,3 +8,5 @@ router.get("/tarea", (req, res) => {
 router.get("/tarea", (req, res) => {
     res.send("La tarea no esta completada")
 })
+
+module.exports = router

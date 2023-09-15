@@ -17,7 +17,7 @@ router.put("/tarea/:id", (req, res) => {
     res.send(`Los datos han sido actualizados para el ID ${id}: ${JSON.stringify(newData)} `)
 })
 
-router.delete("/tareas/:id", (req, res) => {
+router.delete("/tarea/:id", (req, res) => {
     const id = req.params.id
 
     res.send(`Los datos del ID ${id} han sido eliminados`)
