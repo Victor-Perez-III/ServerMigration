@@ -1,7 +1,8 @@
 const { Router } = require("express")
 const editar = Router()
+const tasks = require("./list-view-router")
 
-editar.post('/', (req, res) => {
+editar.post('/create-task', (req, res) => {
 
     const { title, completed } = req.body;
 
@@ -10,7 +11,7 @@ editar.post('/', (req, res) => {
     res.json(newTask);
 });
 
-editar.put('/:id', (req, res) => {
+editar.put('/update-task/:id', (req, res) => {
 
     const taskId = parseInt(req.params.id);
 
@@ -25,7 +26,7 @@ editar.put('/:id', (req, res) => {
 });
 
 
-editar.delete('/:id', (req, res) => {
+editar.delete('/delete-task/:id', (req, res) => {
 
     const taskId = parseInt(req.params.id);
     tasks = tasks.filter(task => task.id !== taskId);
