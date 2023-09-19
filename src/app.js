@@ -1,19 +1,21 @@
 const express = require("express");
 const app = express();
+
 const PORT = 3000;
+const verify = require("./routes/list-view-router")
+const edit = require("./routes/list-edit-router")
 
-const tasks = [
-    { id: "1", title: 'Hacer la compra', isComplete: 'false' },
-    { id: '2', title: 'Estudiar Express', isComplete: 'true' },
-    { id: '3', title: 'Terminar mis Tareas', isComplete: 'true' }
-]
 
-app.get("/tasks", (req, res) => {
-    res.json(tasks);
-})
+
+app.use("/complete-task", verify)
+app.use("/incomplete-task", verify)
+
+app.use('/create-task', edit)
+app.use('/update-task', edit)
+app.use('/delete-task', edit)
 
 app.listen(PORT, () => {
-    console.log("Server Running.....");
+    console.log("Server is Running.....");
 })
 
 

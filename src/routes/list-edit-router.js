@@ -1,26 +1,35 @@
-const express = require("express")
-const router = express.Router()
+const { Router } = require("express")
+const editar = Router()
+
+editar.post('/', (req, res) => {
+
+    const { title, completed } = req.body;
+
+    const newTask = { id: tasks.length + 1, title, completed };
+    tasks.push(newTask);
+    res.json(newTask);
+});
+
+editar.put('/:id', (req, res) => {
+
+    const taskId = parseInt(req.params.id);
+
+    const { title, completed } = req.body;
+    tasks = tasks.map(task => {
+        if (task.id === taskId) {
+            return { ...task, title, completed };
+        }
+        return task;
+    });
+    res.json({ message: 'Tarea actualizada con éxito' });
+});
 
 
-router.post("/tarea", (req, res) => {
+editar.delete('/:id', (req, res) => {
 
-    const data = req.body;
+    const taskId = parseInt(req.params.id);
+    tasks = tasks.filter(task => task.id !== taskId);
+    res.json({ message: 'Tarea eliminada con éxito' });
+});
 
-    res.send(`Datos recibidos: ${JSON.stringify(data)}`)
-})
-
-
-router.put("/tarea/:id", (req, res) => {
-    const id = req.params.id
-    const newData = req.body
-
-    res.send(`Los datos han sido actualizados para el ID ${id}: ${JSON.stringify(newData)} `)
-})
-
-router.delete("/tarea/:id", (req, res) => {
-    const id = req.params.id
-
-    res.send(`Los datos del ID ${id} han sido eliminados`)
-})
-
-module.exports = router
+module.exports = editar
