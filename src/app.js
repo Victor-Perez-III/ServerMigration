@@ -1,10 +1,12 @@
 const express = require("express");
+const morgan = require("morgan")
+const taskViewRouter = require("./routes/list-view-router")
+const edit = require("./routes/list-edit-router")
 const app = express();
 
 const PORT = 3000;
-const taskViewRouter = require("./routes/list-view-router")
-const edit = require("./routes/list-edit-router")
 
+app.use(morgan("dev"))
 
 
 app.use(taskViewRouter)

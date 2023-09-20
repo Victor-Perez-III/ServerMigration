@@ -1,11 +1,6 @@
 const { Router } = require("express")
 const tasksRouter = Router()
-
-const tasks = [
-    { id: "1", title: 'Hacer la compra', completed: false },
-    { id: '2', title: 'Estudiar Express', completed: true },
-    { id: '3', title: 'Terminar mis Tareas', completed: true }
-]
+const task = require("../data/taskList")
 
 tasksRouter.get("/complete", (req, res) => {
     const completeTasks = tasks.filter(task => task.completed === true)
@@ -17,4 +12,4 @@ tasksRouter.get("/incomplete", (req, res) => {
     res.json(incompleteTasks)
 })
 
-module.exports = tasksRouter, tasks
+module.exports = tasksRouter
