@@ -3,7 +3,7 @@ const { Router } = require("express")
 const editar = Router()
 const tasks = require("../data/taskList")
 
-editar.use(express.json())
+
 
 editar.post('/create-task', (req, res) => {
     const newTask = req.body;
@@ -18,7 +18,7 @@ editar.put('/update-task/:id', (req, res) => {
         if (task.id === taskId) {
             return { ...task, title, completed };
         }
-        return task;
+        return tasks;
     });
     res.json({ message: `Tarea ${taskId} has sido actualizada` });
 });
