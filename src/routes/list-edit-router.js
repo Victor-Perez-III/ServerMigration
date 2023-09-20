@@ -1,10 +1,13 @@
+const express = require("express")
 const { Router } = require("express")
 const editar = Router()
 const tasks = require("../data/taskList")
 
+editar.use(express.json())
+
 editar.post('/create-task', (req, res) => {
-    const newTask = req.body
-    newTask.push(newTask)
+    const newTask = req.body;
+    tasks.push(newTask)
     res.status(201).json("Tarea creada con exito")
 });
 
@@ -24,10 +27,12 @@ editar.put('/update-task/:id', (req, res) => {
 editar.delete('/delete-task/:taskid', (req, res) => {
 
     const taskId = req.params.id
-    const index = task.findIndex((iTask) => iTask.id == taskId)
-    if (index >= 0) {
-        tasks.splice(index, 1)
-        res.status(200).json({ message: `Tarea ${taskId} has sido borrada` })
+    const index = tasks.findIndex((iTask) => iTask.id == taskId)
+    if (index !== -1) {
+        tasks.splice(index, 1);
+        res.status(200).json({ message: `Tarea ${taskId} ha sido borrada` });
+    } else {
+        res.status(404).json({ message: `Tarea ${taskId} no encontrada` });
     }
 });
 

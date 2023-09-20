@@ -3,13 +3,11 @@ const morgan = require("morgan")
 const taskViewRouter = require("./routes/list-view-router")
 const edit = require("./routes/list-edit-router")
 const app = express();
-
 const PORT = 3000;
 
-app.use(morgan("dev"))
+app.use(express.json())
 
 
-app.use(taskViewRouter)
 app.use(taskViewRouter)
 
 app.use(edit)
