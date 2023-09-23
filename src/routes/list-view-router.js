@@ -1,9 +1,11 @@
 const express = require("express")
 const { Router } = require("express")
 const tasksRouter = Router()
-const tasks = require("../data/taskList")
+const tasks = require("../data/tasks")
 
-
+tasksRouter.get("/", (req, res) => {
+    return res.json(tasks)
+})
 
 tasksRouter.get("/complete", (req, res) => {
     const completeTasks = tasks.filter(task => task.completed === true)

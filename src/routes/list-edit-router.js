@@ -1,39 +1,42 @@
-const express = require("express")
 const { Router } = require("express")
-const editar = Router()
-const tasks = require("../data/taskList")
+const taskFunction = Router()
+const tasks = require("../data/tasks")
 
 
-
-editar.post('/create-task', (req, res) => {
+taskFunction.post('/create-task', (req, res) => {
     const newTask = req.body;
     tasks.push(newTask)
+    // console.log(tasks)
     res.status(201).json("Tarea creada con exito")
 });
 
-editar.put('/update-task/:id', (req, res) => {
+
+taskFunction.put('/update-task/:id', (req, res) => {
     const taskId = parseInt(req.params.id);
     const { title, completed } = req.body;
-    tasks = tasks.map(task => {
+    tasks.forEach((task, index) => {
         if (task.id === taskId) {
-            return { ...task, title, completed };
+            tasks[index] = { ...task, title, completed };
+            console.log(tasks)
+            res.json({ message: `Tarea ${taskId} ha sido actualizada` });
+            return;
         }
-        return tasks;
     });
-    res.json({ message: `Tarea ${taskId} has sido actualizada` });
+    res.status(404).json({ message: `Tarea ${taskId} no encontrada` });
 });
 
 
-editar.delete('/delete-task/:taskid', (req, res) => {
+taskFunction.delete('/delete-task/:taskid', (req, res) => {
 
     const taskId = req.params.id
     const index = tasks.findIndex((iTask) => iTask.id == taskId)
     if (index !== -1) {
         tasks.splice(index, 1);
+        // console.log(tasks)
         res.status(200).json({ message: `Tarea ${taskId} ha sido borrada` });
     } else {
         res.status(404).json({ message: `Tarea ${taskId} no encontrada` });
     }
 });
 
-module.exports = editar
+module.exports = taskFunction
