@@ -1,12 +1,16 @@
 const { Router } = require("express")
 const taskFunction = Router()
-const tasks = require("../data/tasks")
+const tasks = require("../data/tasks");
+const catchError = require("../middlewares/list-edit-middleware")
+
+taskFunction.use(catchError);
+
 
 
 taskFunction.post('/create-task', (req, res) => {
     const newTask = req.body;
     tasks.push(newTask)
-    // console.log(tasks)
+    console.log(tasks)
     res.status(201).json("Tarea creada con exito")
 });
 
