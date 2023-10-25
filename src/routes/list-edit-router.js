@@ -1,26 +1,46 @@
-const express = require("express")
-const router = express.Router()
+const { Router } = require("express")
+const taskFunction = Router()
+const tasks = require("../data/tasks");
+const catchError = require("../middlewares/list-edit-middleware")
+
+taskFunction.use(catchError);
 
 
-router.post("/tarea", (req, res) => {
 
-    const data = req.body;
+taskFunction.post('/create-task', (req, res) => {
+    const newTask = req.body;
+    tasks.push(newTask)
+    console.log(tasks)
+    res.status(201).json("Tarea creada con exito")
+});
 
-    res.send(`Datos recibidos: ${JSON.stringify(data)}`)
-})
+
+taskFunction.put('/update-task/:id', (req, res) => {
+    const taskId = parseInt(req.params.id);
+    const { title, completed } = req.body;
+    tasks.forEach((task, index) => {
+        if (task.id === taskId) {
+            tasks[index] = { ...task, title, completed };
+            console.log(tasks)
+            res.json({ message: `Tarea ${taskId} ha sido actualizada` });
+            return;
+        }
+    });
+    res.status(404).json({ message: `Tarea ${taskId} no encontrada` });
+});
 
 
-router.put("/tarea/:id", (req, res) => {
-    const id = req.params.id
-    const newData = req.body
+taskFunction.delete('/delete-task/:taskid', (req, res) => {
 
-    res.send(`Los datos han sido actualizados para el ID ${id}: ${JSON.stringify(newData)} `)
-})
+    const taskId = req.params.id
+    const index = tasks.findIndex((iTask) => iTask.id == taskId)
+    if (index !== -1) {
+        tasks.splice(index, 1);
+        // console.log(tasks)
+        res.status(200).json({ message: `Tarea ${taskId} ha sido borrada` });
+    } else {
+        res.status(404).json({ message: `Tarea ${taskId} no encontrada` });
+    }
+});
 
-router.delete("/tarea/:id", (req, res) => {
-    const id = req.params.id
-
-    res.send(`Los datos del ID ${id} han sido eliminados`)
-})
-
-module.exports = router
+module.exports = taskFunction
